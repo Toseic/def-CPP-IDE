@@ -4,6 +4,9 @@
 
 Def C++ 是一款极简的，轻量化的C++ IDE。其具备一个C++ IDE应有的基本功能，并在此基础上增添了一系列便捷设计。
 
+github仓库链接：https://github.com/Toseic/def-CPP-IDE
+
+
 #### 二、功能简介
 
 由于本项目还处在开发阶段，所以只能对功能进行一个简单的计划：
@@ -29,4 +32,6 @@ Def C++ 是一款极简的，轻量化的C++ IDE。其具备一个C++ IDE应有�
 6.2 初步完成所有计划功能
 
 6.30 美化界面并提交作业
+
+![image](https://user-images.githubusercontent.com/90973776/167285490-1485d541-d113-46d2-9eda-e74dec2be0fa.png)
 
