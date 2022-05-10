@@ -29,5 +29,5 @@ github仓库链接：https://github.com/Toseic/def-CPP-IDE
 
 6.30 美化界面并提交作业
 
-![image](https://user-images.githubusercontent.com/90973776/167285490-1485d541-d113-46d2-9eda-e74dec2be0fa.png)
+<img width="761" alt="img" src="https://user-images.githubusercontent.com/97432569/167635416-193e5aed-6042-41de-82de-e295e5b7a017.png">
 
