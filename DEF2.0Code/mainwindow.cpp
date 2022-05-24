@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <qsciscintilla.h>
+#include <texteditor.h>
 #include <qscilexercpp.h>
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -9,34 +10,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     this -> setWindowTitle("新建文件");
     // 代码编辑器
-    textEdit = new QsciScintilla;
-    // 文法分析器
-    QsciLexerCPP *textLexer = new QsciLexerCPP;
-    textEdit->setLexer(textLexer);
-    // 边缘序号
-    textEdit->setMarginType(0, QsciScintilla::NumberMargin);
-    textEdit->setMarginLineNumbers(0, true);
-    textEdit->setMarginWidth(0,30);
-    textEdit->setTabWidth(4);
-    // 自动括号
-    textEdit->setUnmatchedBraceBackgroundColor(Qt::blue);
-    textEdit->setBraceMatching(QsciScintilla::SloppyBraceMatch);
-    textEdit->setIndentationGuides(true);
-    textEdit->setAutoIndent(true);
-    // 自动补全
-    textEdit->setCaretLineVisible(true);
-    // 选中行背景色
-    textEdit->setCaretLineBackgroundColor(Qt::lightGray);
-    // 编码UTF-8
-    textEdit->SendScintilla(QsciScintilla::SCI_SETCODEPAGE,QsciScintilla::SC_CP_UTF8);
-    // 代码折叠
-    textEdit->setFolding(QsciScintilla::BoxedTreeFoldStyle);
-    textEdit->setFoldMarginColors(Qt::gray,Qt::lightGray);
-
-    // 摆放代码编辑器
+    textEdit = new Texteditor(this);
+    // 摆放编辑器
     this -> setCentralWidget(textEdit);
-    textEdit->setText("#include<iostream>\nusing namespace std;\nint main(){\n\tcout << \"Hello world!\" << endl;\n\tsystem(\"pause\");\n\treturn 0;\n}");
-
     //菜单栏
     // File
     mfile = this -> menuBar() -> addMenu("文件");
