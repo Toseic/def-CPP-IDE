@@ -6,6 +6,7 @@
 #include "QFileDialog"
 #include <qsciscintilla.h>
 #include <qscilexercpp.h>
+#include <texteditor.h>
 namespace Ui {
 class MainWindow;
 }
@@ -16,7 +17,7 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
-    QsciScintilla *textEdit; // 代码编辑器
+    Texteditor *textEdit; // 代码编辑器
     QString file_path; // 文件路径
 
         QMenu *mfile; // 菜单：File 文件
