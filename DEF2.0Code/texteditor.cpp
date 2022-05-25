@@ -1,4 +1,5 @@
 #include "texteditor.h"
+#include <string.h>
 
 Texteditor::Texteditor(QWidget *parent): QsciScintilla(parent)
 {
@@ -71,32 +72,52 @@ void Texteditor::setapis(){
 }
 void Texteditor::init_editor(){
     textlexer = new QsciLexerCPP(this);
+    textlexer->setColor(QColor(Qt::darkGreen),QsciLexerCPP::PreProcessor);
+    textlexer->setColor(QColor(Qt::blue),QsciLexerCPP::Keyword);
+    textlexer->setColor(QColor(Qt::red),QsciLexerCPP::UnclosedString);
+    textlexer->setColor(QColor("#800080"),QsciLexerCPP::UserLiteral);
+    textlexer->setColor(QColor(Qt::darkGreen),QsciLexerCPP::TripleQuotedVerbatimString);
+    textlexer->setColor(QColor(Qt::darkGreen),QsciLexerCPP::Comment);
+    textlexer->setColor(QColor(Qt::darkGreen),QsciLexerCPP::HashQuotedString);
+    textlexer->setColor(QColor(Qt::darkYellow),QsciLexerCPP::DoubleQuotedString);
+    textlexer->setColor(QColor(Qt::darkGreen),QsciLexerCPP::PreProcessorComment);
+    textlexer->setColor(QColor(Qt::darkGreen),QsciLexerCPP::CommentLine);
+    textlexer->setFont(QFont("Monaco"));
 
     setLexer(textlexer);
+
+    apis = new QsciAPIs(textlexer);
+    setapis();
+
+    setAutoIndent(true);
+    setIndentationGuides(true);
+
+    setCaretWidth(2);//光标宽度，0表示不显示光标
+    setCaretForegroundColor(QColor("darkCyan"));  //光标颜色
+    setCaretLineVisible(true); //是否高亮显示光标所在行
+    setCaretLineBackgroundColor(Qt::lightGray);//光标所在行背景颜色
+
+    setUnmatchedBraceForegroundColor(Qt::blue);
+
+    setBraceMatching(QsciScintilla::SloppyBraceMatch);
+
     setMarginType(0, QsciScintilla::NumberMargin);
     setMarginLineNumbers(0, true);
     setMarginWidth(0,30);
-    //括号匹配
+
     setUnmatchedBraceBackgroundColor(Qt::blue);
-    setBraceMatching(QsciScintilla::SloppyBraceMatch);
-    // Tab缩进
+
     setIndentationsUseTabs(true);
     setIndentationWidth(4);
     setTabIndents(false);
-    setAutoIndent(true);
+
     setBackspaceUnindents(true);
     setTabWidth(4);
     setIndentationGuides(true);
     //设置自动补全
-    apis = new QsciAPIs(textlexer);
-    setapis();
+
     //自动补全
-    setAutoCompletionSource(QsciScintilla::AcsAll);
-    setAutoCompletionCaseSensitivity(true);
-    setAutoCompletionThreshold(1);
-    setCaretLineVisible(true);
-    // 选中行背景色
-    setCaretLineBackgroundColor(Qt::lightGray);
+
     // 编码UTF-8
     SendScintilla(QsciScintilla::SCI_SETCODEPAGE,QsciScintilla::SC_CP_UTF8);
     // 代码折叠
@@ -109,22 +130,51 @@ void Texteditor::init_editor(){
     setCallTipsStyle(QsciScintilla::CallTipsNoAutoCompletionContext);
     setWrapMode(QsciScintilla::WrapWhitespace);
 
-    textlexer->setColor(QColor("#FFA0C4"),QsciLexerCPP::PreProcessor);
-    textlexer->setColor(QColor(Qt::blue),QsciLexerCPP::Keyword);
-    textlexer->setColor(QColor(Qt::red),QsciLexerCPP::UnclosedString);
-    textlexer->setColor(QColor("#800080"),QsciLexerCPP::UserLiteral);
-    textlexer->setColor(QColor(Qt::darkGreen),QsciLexerCPP::TripleQuotedVerbatimString);
-    textlexer->setColor(QColor(Qt::darkGreen),QsciLexerCPP::Comment);
-    textlexer->setColor(QColor(Qt::darkGreen),QsciLexerCPP::HashQuotedString);
-    textlexer->setColor(QColor(Qt::darkGreen),QsciLexerCPP::DoubleQuotedString);
-    textlexer->setColor(QColor(Qt::darkGreen),QsciLexerCPP::PreProcessorComment);
-    textlexer->setColor(QColor(Qt::darkGreen),QsciLexerCPP::CommentLine);
-    textlexer->setFont(QFont("Monaco"));
+    setAutoCompletionSource(QsciScintilla::AcsAll);
+    setAutoCompletionCaseSensitivity(true);
+    setAutoCompletionThreshold(1);
 
     setText("#include<iostream>\nusing namespace std;\nint main(){\n\tcout << \"Hello world!\" << endl;\n\tsystem(\"pause\");\n\treturn 0;\n}");
+
+    connect(this, SIGNAL(textChanged()),this, SLOT(complete_brackets()));
 }
 Texteditor::~Texteditor(){
 //    delete qsci;
 //    delete textlexer;
 //    delete apis;
+}
+void Texteditor::complete_brackets(){
+    int line,index;
+    getCursorPosition(&line, &index);
+    if(text(line)[index] == '('){
+        qDebug() << "get a bracket";
+        QTimer::singleShot(0, [this, line, index](){insert(")");setCursorPosition(line, index+1);});
+    }
+    else if(text(line)[index] == '['){
+        qDebug() << "get a bracket";
+        QTimer::singleShot(0, [this, line, index](){insert("]");setCursorPosition(line, index+1);});
+    }
+    else if(text(line)[index] == '{'){
+        qDebug() << "get a bracket";
+        int tab_num = 0;
+        for(int i=0;i<text(line).size();++i){
+            if(text(line)[i]=='\t'){
+                tab_num++;
+            }
+        }
+        QTimer::singleShot(0, [this, line, index, tab_num](){
+            setCursorPosition(line, index+1);
+            insert("}");
+            insert("\n");
+            for(int i=0;i<tab_num+1;++i){
+                insert("\t");
+            }
+            insert("\n");
+            setCursorPosition(line+2,0);
+            for(int i=0;i<tab_num;++i){
+                insert("\t");
+            }
+            setCursorPosition(line+1, this->text(line+1).size()-1);
+        });
+    }
 }
