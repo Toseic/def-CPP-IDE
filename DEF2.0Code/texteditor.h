@@ -1,8 +1,10 @@
 #ifndef TEXTEDITOR_H
 #define TEXTEDITOR_H
 
+#include <string.h>
 #include <QWidget>
 #include <QWidget>
+#include <QDebug>
 #include <QWheelEvent>
 #include <Qsci/qsciscintilla.h>
 #include <Qsci/qscilexer.h>
@@ -21,9 +23,10 @@ public:
     QsciAPIs * apis;
     void init_editor();
     void setapis();
-
 signals:
 
+public slots:
+    void complete_brackets();
 };
 
 #endif // TEXTEDITOR_H
