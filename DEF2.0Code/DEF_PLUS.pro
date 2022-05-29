@@ -24,15 +24,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    texteditor.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    texteditor.h
 
 FORMS    += mainwindow.ui
 
-INCLUDEPATH += $$PWD/QScintilla/qsci
+INCLUDEPATH += $$PWD/QScintilla/Qsci
 CONFIG(debug, debug|release):LIBS += -L$$PWD/QScintilla/ -lqscintilla2_qt5d
 else::CONFIG(release, debug|release):LIBS += -L$$PWD/QScintilla/ -lqscintilla2_qt5
 
 DISTFILES += \
-    icon.png
+    icon.png \
+    theme.qss
