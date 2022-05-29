@@ -152,7 +152,7 @@ void MainWindow::on_save(){
             QMessageBox::information(this,"错误","无法保存文件");
             this -> setWindowTitle(file_path);
         }else{
-            fprintf(p,"%s",textEdit->text().toStdString().c_str());A
+            fprintf(p,"%s",textEdit->text().toStdString().c_str());
             fclose(p);
             this -> setWindowTitle(file_path);
         }
