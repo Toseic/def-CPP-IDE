@@ -118,9 +118,9 @@ void MainWindow::on_new(){
     QFile qssFile("./theme.qss");
     qssFile.open(QFile::ReadOnly);
     QString qss = QLatin1String(qssFile.readAll());
-    new_w.setStyleSheet(qss);
+    new_w -> setStyleSheet(qss);
     qssFile.close();
-    new_w.setWindowIcon(QIcon("./icon.png"));
+    new_w -> setWindowIcon(QIcon("./icon.png"));
     new_w -> show();
 }
 
