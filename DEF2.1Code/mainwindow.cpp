@@ -115,6 +115,12 @@ MainWindow::MainWindow(QWidget *parent) :
 void MainWindow::on_new(){
     MainWindow *new_w = new MainWindow;
     new_w -> resize(1500,1200);
+    QFile qssFile("./theme.qss");
+    qssFile.open(QFile::ReadOnly);
+    QString qss = QLatin1String(qssFile.readAll());
+    new_w.setStyleSheet(qss);
+    qssFile.close();
+    new_w.setWindowIcon(QIcon("./icon.png"));
     new_w -> show();
 }
 
