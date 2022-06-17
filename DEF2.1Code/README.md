@@ -1,3 +1,5 @@
+QScintilla安装教程：https://blog.csdn.net/kangkanglhb88008/article/details/121395643  
+
 # 2.1版本说明：
 # 注意！需要解压出QScintilla文件夹
 ## （gws）界面优化：  
