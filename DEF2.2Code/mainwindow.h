@@ -8,6 +8,8 @@
 #include <qsciscintilla.h>
 #include <qscilexercpp.h>
 #include <texteditor.h>
+#include "settingstore.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -22,6 +24,10 @@ public:
     QString file_path; // 文件路径
     QString compiler; // 编译器名称
     QString commandline_arg; // 命令行参数
+    QString mytheme; // theme used
+    QString themepath; // .qss themefile's path
+    settingStore* set_store;
+
 
     QMenu *mfile; // 菜单：File 文件
     QAction *anew; // 动作：New 新建
@@ -47,8 +53,15 @@ public:
     QMenu *mhelp; // 菜单：Help 帮助
     QAction *aabout; // 动作：About 关于
 
-    void set_compiler(QString);
+    void set_compiler(QString); 
     void set_commandline_arg(QString);
+    void set_theme(QString);  // set color theme
+    void set_cursor_width(int); // set cursor's width
+    void set_auto_tab(QString); // 设置换行时自动缩进
+    void set_auto_tab(bool); // 设置换行时自动缩进
+    void set_referline(QString); // 设置缩进参考线
+    void set_referline(bool); // 设置缩进参考线
+    void set_store_refresh(); // 通过setstore的内容更新所有设置
 
     ~MainWindow();
 
@@ -75,6 +88,8 @@ private slots:
     void on_settings();
 
     void on_about();
+
+    // void theme_set(QString);
 };
 
 #endif // MAINWINDOW_H
