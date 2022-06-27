@@ -6,6 +6,11 @@
 #include <qscilexercpp.h>
 #include "compileinf.h"
 #include "settingstore.h"
+#include <QLabel>
+#include <QThread>
+#include<windows.h> // Sleep()
+
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -15,9 +20,19 @@ MainWindow::MainWindow(QWidget *parent) :
     this -> setWindowTitle("新建文件");
     compiler = "g++.exe";
     commandline_arg = "";
-
+    start = clock();
     // 储存设置
     set_store = new settingStore();
+
+    // 在statubar中添加codingtime label
+    codingtime = new QLabel(this);
+    codingtime->setText("0 m");
+    ui->statusBar->addPermanentWidget(codingtime);
+
+    //  更新codingtime的线程
+    ct_thread *ct = new ct_thread();
+    ct->set_mw(this);
+    ct->start();
 
     // 代码编辑器
     textEdit = new Texteditor(this);
@@ -306,6 +321,28 @@ void MainWindow::on_about(){
     QMessageBox::information(this,"关于","DEF C++ IDE 2022");
 }
 
+
+
+
+
+// codingtime 多线程更新
+void ct_thread::run() {
+    while (true) {
+        mw->check = clock();
+        int minut = (int)((mw->check - mw->start) / CLOCKS_PER_SEC) / 60;
+        int hour = minut / 60;
+        minut %= 60;
+        if (hour)
+            mw->codingtime->setText("coding time: "+QString::number(hour)+" h "+QString::number(minut)+" m");
+        else
+            mw->codingtime->setText("coding time: "+QString::number(minut)+" m");
+        Sleep(60000); // sleep one minute
+    }
+}
+
+void ct_thread::set_mw(MainWindow * mw1) {
+    mw = mw1;
+}
 
 MainWindow::~MainWindow()
 {
