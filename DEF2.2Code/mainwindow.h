@@ -9,6 +9,8 @@
 #include <qscilexercpp.h>
 #include <texteditor.h>
 #include "settingstore.h"
+#include <time.h>
+#include <QThread>
 
 namespace Ui {
 class MainWindow;
@@ -27,7 +29,8 @@ public:
     QString mytheme; // theme used
     QString themepath; // .qss themefile's path
     settingStore* set_store;
-
+    QLabel *codingtime;
+    clock_t start,check;
 
     QMenu *mfile; // 菜单：File 文件
     QAction *anew; // 动作：New 新建
@@ -63,6 +66,7 @@ public:
     void set_referline(bool); // 设置缩进参考线
     void set_store_refresh(); // 通过setstore的内容更新所有设置
 
+
     ~MainWindow();
 
 private:
@@ -91,6 +95,13 @@ private slots:
 
 
     // void theme_set(QString);
+};
+
+class ct_thread: public QThread { // 用于更新codingtime的线程
+public:
+    MainWindow *mw;
+    void set_mw(MainWindow *);
+    virtual void run();
 };
 
 #endif // MAINWINDOW_H
