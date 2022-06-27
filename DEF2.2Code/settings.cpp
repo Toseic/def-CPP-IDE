@@ -43,6 +43,8 @@ Settings::Settings(MainWindow *set, QWidget *parent) :
     ui->comboBox_autotab->setCurrentText(settingStore::booltostr(set_ori->set_store->auto_tab));
     ui->comboBox_referline->addItems(boolstrList);
     ui->comboBox_referline->setCurrentText(settingStore::booltostr(set_ori->set_store->refer_line));
+    ui->comboBox_codingtime->addItems(boolstrList);
+    ui->comboBox_codingtime->setCurrentText(settingStore::booltostr(set_ori->set_store->coding_time));
     ui->cursor_width->setValue(set_ori->set_store->cursor_width);
 
 }
@@ -68,6 +70,7 @@ void Settings::on_confirm_clicked()
 
     set_ori->set_store->set_auto_tab(ui->comboBox_autotab->currentText());
     set_ori->set_store->set_refer_line(ui->comboBox_referline->currentText());
+    set_ori->set_store->set_codingtime(ui->comboBox_codingtime->currentText());
 
     set_ori->set_store_refresh();
     set_ori->set_store->store2file();
@@ -102,12 +105,22 @@ void MainWindow::set_referline(bool qbol) {
     textEdit->setIndentationGuides(qbol);
 }
 
+// 设置是否打开codingtime
+void MainWindow::set_codingtime(bool qbol) {
+    if (!qbol) {
+        this->codingtime->setText("");
+    } else {
+        this->start = clock();
+        this->codingtime->setText("coding time: 0 m");
+    }
+}
 
 void MainWindow::set_store_refresh() {
     set_theme(set_store->themePath());
     set_cursor_width(set_store->cursor_width);
     set_auto_tab(set_store->auto_tab);
     set_referline(set_store->refer_line);
+    set_codingtime(set_store->coding_time);
 }
 
 

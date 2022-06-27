@@ -328,14 +328,19 @@ void MainWindow::on_about(){
 // codingtime 多线程更新
 void ct_thread::run() {
     while (true) {
-        mw->check = clock();
-        int minut = (int)((mw->check - mw->start) / CLOCKS_PER_SEC) / 60;
-        int hour = minut / 60;
-        minut %= 60;
-        if (hour)
-            mw->codingtime->setText("coding time: "+QString::number(hour)+" h "+QString::number(minut)+" m");
-        else
-            mw->codingtime->setText("coding time: "+QString::number(minut)+" m");
+        if (mw->set_store->coding_time) {  // 通过直接读取set_store的内容设置是否显示codingtime
+            mw->check = clock();
+            int minut = (int)((mw->check - mw->start) / CLOCKS_PER_SEC) / 60;
+            int hour = minut / 60;
+            minut %= 60;
+            if (hour)
+                mw->codingtime->setText("coding time: "+QString::number(hour)+" h "+QString::number(minut)+" m");
+            else
+                mw->codingtime->setText("coding time: "+QString::number(minut)+" m");
+        } else {
+            mw->codingtime->setText("");
+        }
+
         Sleep(60000); // sleep one minute
     }
 }

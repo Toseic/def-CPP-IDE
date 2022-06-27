@@ -13,9 +13,10 @@ public:
     int cursor_width;
     bool auto_tab;
     bool refer_line;
+    bool coding_time;
 
     settingStore();
-    settingStore(int); // TODO: load from cache file
+    settingStore(int);
     QString themePath();
     static QString booltostr(bool bol);
     static bool strtobool(QString qstr);
@@ -23,6 +24,7 @@ public:
     void set_cursor_width(int);
     void set_auto_tab(QString);
     void set_refer_line(QString);
+    void set_codingtime(QString);
     void store2file();
     void file2store();
     ~settingStore();
