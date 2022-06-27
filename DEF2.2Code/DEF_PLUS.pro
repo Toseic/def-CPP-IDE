@@ -27,12 +27,14 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     texteditor.cpp \
     settings.cpp \
-    compileinf.cpp
+    compileinf.cpp \
+    settingstore.cpp
 
 HEADERS  += mainwindow.h \
     texteditor.h \
     settings.h \
-    compileinf.h
+    compileinf.h \
+    settingstore.h
 
 FORMS    += mainwindow.ui \
     settings.ui \
@@ -40,8 +42,11 @@ FORMS    += mainwindow.ui \
 
 INCLUDEPATH += $$PWD/QScintilla/Qsci
 CONFIG(debug, debug|release):LIBS += -L$$PWD/QScintilla/ -lqscintilla2_qt5d
-else::CONFIG(release, debug|release):LIBS += -L$$PWD/QScintilla/ -lqscintilla2_qt5
+#else::CONFIG(release, debug|release):LIBS += -L$$PWD/QScintilla/ -lqscintilla2_qt5
 
 DISTFILES += \
     icon.png \
-    theme.qss
+
+RESOURCES += \
+    theme.qrc
+

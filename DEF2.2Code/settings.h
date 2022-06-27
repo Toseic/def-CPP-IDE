@@ -27,4 +27,6 @@ private:
     Ui::Settings *ui;
 };
 
+
+
 #endif // SETTINGS_H

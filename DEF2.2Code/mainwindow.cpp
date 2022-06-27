@@ -5,6 +5,8 @@
 #include <texteditor.h>
 #include <qscilexercpp.h>
 #include "compileinf.h"
+#include "settingstore.h"
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -13,6 +15,9 @@ MainWindow::MainWindow(QWidget *parent) :
     this -> setWindowTitle("新建文件");
     compiler = "g++.exe";
     commandline_arg = "";
+
+    // 储存设置
+    set_store = new settingStore();
 
     // 代码编辑器
     textEdit = new Texteditor(this);
@@ -101,6 +106,9 @@ MainWindow::MainWindow(QWidget *parent) :
     aabout->setShortcut(tr("Ctrl+H"));
     mhelp->addAction(aabout);
 
+    // 读取配置文件后刷新设置
+    set_store_refresh();
+
     // 消息槽
     connect(anew,SIGNAL(triggered(bool)),this,SLOT(on_new()));
     connect(aopen,SIGNAL(triggered(bool)),this,SLOT(on_open()));
@@ -135,7 +143,7 @@ void MainWindow::set_commandline_arg(QString str){
 void MainWindow::on_new(){
     MainWindow *new_w = new MainWindow;
     new_w -> resize(1500,1200);
-    QFile qssFile("./theme.qss");
+    QFile qssFile(set_store->themePath());
     qssFile.open(QFile::ReadOnly);
     QString qss = QLatin1String(qssFile.readAll());
     new_w->setStyleSheet(qss);
@@ -204,6 +212,7 @@ void MainWindow::on_saveas(){
 
 // 退出
 void MainWindow::on_exit(){
+    this->set_store->store2file();
     this -> close();
 }
 
@@ -282,7 +291,8 @@ void MainWindow::on_compileandrun(){
 // 设置
 void MainWindow::on_settings(){
     Settings *set = new Settings(this, NULL);
-    QFile qssFile("./theme.qss");
+    qDebug() << themepath << endl;
+    QFile qssFile(set_store->themePath());
     qssFile.open(QFile::ReadOnly);
     QString qss = QLatin1String(qssFile.readAll());
     set->setStyleSheet(qss);
@@ -295,6 +305,7 @@ void MainWindow::on_settings(){
 void MainWindow::on_about(){
     QMessageBox::information(this,"关于","DEF C++ IDE 2022");
 }
+
 
 MainWindow::~MainWindow()
 {

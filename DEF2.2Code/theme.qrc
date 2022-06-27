@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/new/prefix1">
+        <file>theme/Ubuntu.qss</file>
+        <file>theme/MaterialDark.qss</file>
+        <file>theme/AMOLED.qss</file>
+        <file>theme/ConsoleStyle.qss</file>
+        <file>theme/ElegantDark.qss</file>
+        <file>theme/MacOS.qss</file>
+        <file>theme/NeonButtons.qss</file>
+        <file>theme/Light.qss</file>
+    </qresource>
+</RCC>
