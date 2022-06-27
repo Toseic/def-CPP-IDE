@@ -33,8 +33,7 @@ Settings::Settings(MainWindow *set, QWidget *parent) :
     QStringList boolstrList;
     boolstrList << "true" << "false";
     this -> setWindowTitle("设置");
-//    QString qst = settingStore::tostr(set_ori->set_store->auto_tab);
-//    qst = settingStore::tostr(set_ori->set_store->refer_line);
+
     ui->compilerEdit->setText(set_ori->compiler);
     ui->commandlineArgEdit->setText(set_ori->commandline_arg);
     ui->comboBox_theme->addItems(themestrList);
@@ -45,6 +44,7 @@ Settings::Settings(MainWindow *set, QWidget *parent) :
     ui->comboBox_referline->addItems(boolstrList);
     ui->comboBox_referline->setCurrentText(settingStore::booltostr(set_ori->set_store->refer_line));
     ui->cursor_width->setValue(set_ori->set_store->cursor_width);
+
 }
 
 Settings::~Settings()
@@ -65,9 +65,12 @@ void Settings::on_confirm_clicked()
 
     set_ori->set_store->set_theme(ui->comboBox_theme->currentText());
     set_ori->set_store->set_cursor_width(ui->cursor_width->value());
+
     set_ori->set_store->set_auto_tab(ui->comboBox_autotab->currentText());
     set_ori->set_store->set_refer_line(ui->comboBox_referline->currentText());
+
     set_ori->set_store_refresh();
+    set_ori->set_store->store2file();
     this->close();
 }
 
@@ -98,6 +101,7 @@ void MainWindow::set_auto_tab(bool qbol) {
 void MainWindow::set_referline(bool qbol) {
     textEdit->setIndentationGuides(qbol);
 }
+
 
 void MainWindow::set_store_refresh() {
     set_theme(set_store->themePath());

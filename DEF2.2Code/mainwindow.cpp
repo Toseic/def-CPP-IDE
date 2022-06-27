@@ -106,6 +106,9 @@ MainWindow::MainWindow(QWidget *parent) :
     aabout->setShortcut(tr("Ctrl+H"));
     mhelp->addAction(aabout);
 
+    // 读取配置文件后刷新设置
+    set_store_refresh();
+
     // 消息槽
     connect(anew,SIGNAL(triggered(bool)),this,SLOT(on_new()));
     connect(aopen,SIGNAL(triggered(bool)),this,SLOT(on_open()));
@@ -209,6 +212,7 @@ void MainWindow::on_saveas(){
 
 // 退出
 void MainWindow::on_exit(){
+    this->set_store->store2file();
     this -> close();
 }
 
@@ -301,6 +305,7 @@ void MainWindow::on_settings(){
 void MainWindow::on_about(){
     QMessageBox::information(this,"关于","DEF C++ IDE 2022");
 }
+
 
 MainWindow::~MainWindow()
 {

@@ -89,6 +89,7 @@ private slots:
 
     void on_about();
 
+
     // void theme_set(QString);
 };
 

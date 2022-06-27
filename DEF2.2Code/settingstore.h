@@ -4,6 +4,7 @@
 
 #include <QWidget>
 #include <QVariant>
+#include <QSettings>
 
 class settingStore {
 public:
@@ -22,6 +23,10 @@ public:
     void set_cursor_width(int);
     void set_auto_tab(QString);
     void set_refer_line(QString);
+    void store2file();
+    void file2store();
+    ~settingStore();
+
 
 };
 
