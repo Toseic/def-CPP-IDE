@@ -40,6 +40,8 @@ public:
     QComboBox *comboBox_autotab;
     QLabel *label_6;
     QSpinBox *cursor_width;
+    QLabel *label_7;
+    QComboBox *comboBox_codingtime;
 
     void setupUi(QWidget *Settings)
     {
@@ -92,6 +94,12 @@ public:
         cursor_width = new QSpinBox(Settings);
         cursor_width->setObjectName(QStringLiteral("cursor_width"));
         cursor_width->setGeometry(QRect(480, 20, 161, 31));
+        label_7 = new QLabel(Settings);
+        label_7->setObjectName(QStringLiteral("label_7"));
+        label_7->setGeometry(QRect(380, 80, 81, 16));
+        comboBox_codingtime = new QComboBox(Settings);
+        comboBox_codingtime->setObjectName(QStringLiteral("comboBox_codingtime"));
+        comboBox_codingtime->setGeometry(QRect(480, 70, 161, 31));
 
         retranslateUi(Settings);
 
@@ -110,6 +118,7 @@ public:
         label_4->setText(QApplication::translate("Settings", "\347\274\251\350\277\233\345\217\202\350\200\203\347\272\277", 0));
         label_5->setText(QApplication::translate("Settings", "\350\207\252\345\212\250\347\274\251\350\277\233", 0));
         label_6->setText(QApplication::translate("Settings", "\345\205\211\346\240\207\345\256\275\345\272\246", 0));
+        label_7->setText(QApplication::translate("Settings", "open coding time", 0));
     } // retranslateUi
 
 };

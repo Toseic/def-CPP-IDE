@@ -64,6 +64,8 @@ public:
     void set_auto_tab(bool); // 设置换行时自动缩进
     void set_referline(QString); // 设置缩进参考线
     void set_referline(bool); // 设置缩进参考线
+    void set_codingtime(bool); // 设置是否打开coding time显示
+
     void set_store_refresh(); // 通过setstore的内容更新所有设置
 
 
